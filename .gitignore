@@ -1,0 +1,8 @@
+.tracker/
+out/
+dist/
+*.log
+node_modules/
+docs/CHECKPOINT.md
+docs/swarm/prompts/
+docs/swarm/progress/

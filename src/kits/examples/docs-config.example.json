@@ -1,0 +1,11 @@
+{
+  "title": "My Game",
+  "tagline": "One sentence that sells it.",
+  "description": "Two or three sentences about what the game is and who stars in it.",
+  "play_url": "",
+  "goal": "Reach the end without losing all lives.",
+  "controls": [ { "key": "Arrow keys / WASD", "action": "Move" }, { "key": "Space", "action": "Jump" }, { "key": "P", "action": "Pause" } ],
+  "features": ["Hand-built pixel art", "Chiptune soundtrack synthesised in code"],
+  "tips": ["Jump early."],
+  "credits": ["Built with game-factory"]
+}

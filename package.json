@@ -1,0 +1,2 @@
+{ "name": "pawgger2", "version": "0.1.0", "private": true, "type": "module",
+  "scripts": { "start": "node tools/serve.mjs 4871", "tracker": "TRACKER_PORT=4870 TRACKER_ROOT=$PWD node tools/swarm-tracker/dashboard/server.mjs", "plan": "TRACKER_ROOT=$PWD node tools/swarm-tracker/bin/swarm-plan.mjs", "test": "node --test test/*.test.mjs test/kits/*.test.mjs test/lib/*.test.mjs" } }

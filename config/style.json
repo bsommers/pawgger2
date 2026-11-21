@@ -1,0 +1,227 @@
+{
+  "id": "top-down-arcade",
+  "name": "Top-down Arcade",
+  "description": "Overhead 2D action: twin-stick or 4-way movement, tile maps, waves of enemies, pixel art with chunky feedback.",
+  "genre": [
+    "shooter",
+    "action",
+    "dungeon-crawler",
+    "racing",
+    "arcade"
+  ],
+  "camera": "top-down",
+  "render": {
+    "tech": "canvas2d-pixel",
+    "dimension": "2d",
+    "resolution": {
+      "width": 320,
+      "height": 240,
+      "scaling": "integer-nearest",
+      "integerOnly": true
+    },
+    "notes": "4:3 playfield with a HUD strip; camera follows with a dead zone and screen shake."
+  },
+  "palette": {
+    "policy": "locked",
+    "maxColors": 48,
+    "rampSize": 4
+  },
+  "art": {
+    "kit": "art-kit",
+    "tileSize": 16,
+    "spriteSize": [
+      16,
+      16
+    ],
+    "outline": "1px-dark"
+  },
+  "character": {
+    "kit": "character-kit",
+    "rig": "param-rig",
+    "animFps": 12
+  },
+  "audio": {
+    "engine": "chip-pulse",
+    "channels": 4,
+    "bitDepth": 8,
+    "sampleRate": 22050,
+    "mood": "energetic"
+  },
+  "fx": [
+    {
+      "id": "screen-shake",
+      "default": true,
+      "strength": 0.7
+    },
+    {
+      "id": "particles",
+      "default": true
+    },
+    {
+      "id": "crt",
+      "default": true,
+      "strength": 0.3
+    },
+    {
+      "id": "scanlines",
+      "default": true,
+      "strength": 0.2
+    },
+    {
+      "id": "bloom",
+      "default": false,
+      "strength": 0.2
+    }
+  ],
+  "physics": {
+    "model": "tile-grid circle/AABB collision with sliding, bullets as pooled particles",
+    "fixedStep": 0.016666666666666666
+  },
+  "worldgen": {
+    "method": "seeded room graph or wave tables",
+    "seeded": true
+  },
+  "input": {
+    "scheme": "WASD move + arrow/mouse aim, or twin stick",
+    "devices": [
+      "keyboard",
+      "mouse",
+      "gamepad",
+      "touch"
+    ]
+  },
+  "performance": {
+    "targetFps": 60,
+    "frameBudgetMs": 8,
+    "minDevice": "low",
+    "drawCalls": 600,
+    "memoryMB": 64
+  },
+  "swarm": {
+    "shape": "contract-first fan-out; enemies/waves agent is the biggest",
+    "agentCount": [
+      8,
+      13
+    ],
+    "roles": [
+      {
+        "role": "architect (ARCHITECTURE.md contract)",
+        "model": "opus"
+      },
+      {
+        "role": "art agents (sprites, tiles, scenery)",
+        "model": "sonnet"
+      },
+      {
+        "role": "sim/gameplay agents",
+        "model": "sonnet"
+      },
+      {
+        "role": "audio agents",
+        "model": "sonnet"
+      },
+      {
+        "role": "render/UI shell",
+        "model": "sonnet"
+      },
+      {
+        "role": "QA bot + verification",
+        "model": "sonnet"
+      },
+      {
+        "role": "boilerplate, lint, docs",
+        "model": "haiku"
+      }
+    ]
+  },
+  "verification": [
+    "node --test passes",
+    "palette lock: zero off-palette pixels",
+    "bot clears 3 waves on a fixed seed",
+    "bullet pool never exceeds its cap",
+    "FPS >= 55 with 150 enemies on screen",
+    "screenshots readable at 1x"
+  ],
+  "pitfalls": [
+    "bullet-hell entity counts: pool and cap",
+    "diagonal speed boost: normalise movement",
+    "tile collision tunnelling at high speed: sub-step",
+    "aim input differs between mouse and pad"
+  ],
+  "examples": [
+    {
+      "game": "catxzzon",
+      "role": "reference"
+    }
+  ],
+  "tags": [
+    "top-down",
+    "arcade",
+    "shooter",
+    "pixel",
+    "2d"
+  ],
+  "requires": {
+    "kits": [
+      "art-kit",
+      "character-kit",
+      "audio-kit",
+      "fx-kit"
+    ],
+    "libs": [
+      "hazard-kit",
+      "world-gen"
+    ],
+    "skills": []
+  },
+  "tech": {
+    "dependencies": "none",
+    "choices": [
+      "Canvas2D",
+      "pooled entity arrays",
+      "spatial hash for collisions"
+    ],
+    "limits": [
+      "around 500 active entities at 60 fps on low tier"
+    ]
+  },
+  "recommend": {
+    "keywords": {
+      "top-down": 8,
+      "top down": 8,
+      "shooter": 5,
+      "twin-stick": 7,
+      "twin stick": 7,
+      "shoot em up": 5,
+      "shmup": 5,
+      "arcade": 4,
+      "dungeon": 3,
+      "zelda": 3,
+      "waves": 3,
+      "survivor": 4,
+      "racing": 2,
+      "pixel": 2
+    },
+    "anti": {
+      "3d": 5,
+      "platformer": 3,
+      "isometric": 4,
+      "fps": 5
+    },
+    "cost": 2,
+    "platforms": [
+      "web",
+      "desktop"
+    ],
+    "pros": [
+      "cheap",
+      "fun fast loop",
+      "bot-friendly"
+    ],
+    "cons": [
+      "needs enemy variety to stay interesting"
+    ]
+  },
+  "themingGuide": "THEMING.md",
+  "version": "1.0.0"
+}

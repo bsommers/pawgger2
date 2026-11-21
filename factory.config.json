@@ -1,0 +1,14 @@
+{
+  "style": {
+    "id": "top-down-arcade",
+    "version": "1.0.0",
+    "theme": "jungle",
+    "tags": [
+      "top-down",
+      "arcade",
+      "shooter",
+      "pixel",
+      "2d"
+    ]
+  }
+}

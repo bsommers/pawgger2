@@ -1,0 +1,61 @@
+{
+  "id": "jungle",
+  "name": "Jungle",
+  "description": "Humid green canopy, warm gold sunlight and rope-vine browns (PawFall's mood).",
+  "compatibleStyles": [
+    "retro-8bit-sidescroller",
+    "retro-16bit",
+    "pixel-2.5d-parallax",
+    "cartoon-vector",
+    "top-down-arcade",
+    "lowpoly-3d",
+    "cel-shaded-toon-3d"
+  ],
+  "palette": {
+    "colors": {
+      "ink": "#1a1420",
+      "canopy": "#1f6b3a",
+      "leaf": "#3fa34d",
+      "sunbeam": "#f7d36b",
+      "fur": "#f08a2c",
+      "soil": "#6b4226",
+      "water": "#2d7fb8",
+      "danger": "#d63a3a",
+      "cream": "#fff3d6"
+    },
+    "roles": {
+      "background": "ink",
+      "text": "cream",
+      "accent": "sunbeam",
+      "danger": "danger",
+      "good": "leaf",
+      "sky": "water",
+      "ground": "soil"
+    }
+  },
+  "typography": {
+    "fontKit": "font5x7",
+    "titleScale": 5,
+    "bodyScale": 1,
+    "case": "upper",
+    "shadow": true
+  },
+  "ui": {
+    "skin": "carved-wood",
+    "panel": "bordered",
+    "cursor": "paw",
+    "cornerStyle": "notched"
+  },
+  "audio": {
+    "sfxMood": "boingy, wooden, birdlike",
+    "musicMood": "bouncy bongo and pulse lead",
+    "scale": "major pentatonic",
+    "bpm": 132
+  },
+  "title": {
+    "layout": "logo-over-scene",
+    "tagline": "Swing, jump, grab the treasure.",
+    "background": "jungle canopy screen",
+    "logoPlacement": "top-center"
+  }
+}
