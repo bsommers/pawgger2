@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pawgger - Colby vs Perring Parkway Pete</title>
+<meta name="description" content="Pawgger: a blocky 8-bit Frogger parody starring Colby the cat and the feral rat Perring Parkway Pete. Play in your browser.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#top">PAWGGER</a>
+  <nav>
+    <a href="#play">Play</a>
+    <a href="#how">How to play</a>
+    <a href="#cast">Cast</a>
+    <a href="#story">The swarm</a>
+    <a href="#tech">Tech</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <p class="kicker">A loving parody of Frogger (1981), in the KASEKRIEG universe</p>
+    <h1>Colby must get home.</h1>
+    <p class="lede">Hop SuperColby across Perring Parkway Pete's five-lane road, then across a jungle river of logs, turtles and crocodiles, into five home bays. Watch out for Pickles delivery trucks, a tuna-can bus, runaway cheese wheels and Pete's honking limo.</p>
+    <div class="cta">
+      <a class="btn" href="play/">Play in your browser</a>
+      <a class="btn ghost" href="https://github.com/bsommers/pawgger2">Source on GitHub</a>
+    </div>
+    <figure class="hero-shot">
+      <img src="shots/gameplay.gif" width="360" height="360" alt="Colby hopping across the road and river in Pawgger">
+      <figcaption>Gameplay, captured from the real build.</figcaption>
+    </figure>
+  </section>
+
+  <section id="play" class="panel">
+    <h2>Play</h2>
+    <p>The whole game is one self-contained page. Nothing to install, no account, no assets to download.</p>
+    <div class="shots">
+      <figure><img src="shots/title.png" alt="Pawgger title screen" loading="lazy"><figcaption>Title screen</figcaption></figure>
+      <figure><img src="shots/play.png" alt="Pawgger during play, level 1" loading="lazy"><figcaption>Level 1: road and river</figcaption></figure>
+    </div>
+    <p><a class="btn" href="play/">Launch Pawgger</a></p>
+  </section>
+
+  <section id="how" class="panel">
+    <h2>How to play</h2>
+    <p>Full rules and scoring are in <a href="https://github.com/bsommers/pawgger2/blob/main/docs/HOW-TO-PLAY.md">HOW-TO-PLAY</a>. The short version:</p>
+    <ul class="bullets">
+      <li><strong>Hop</strong> with the arrow keys or WASD. One hop per press.</li>
+      <li><strong>Ride</strong> logs and turtles across the river. Open water, the hedge and falling off screen are fatal.</li>
+      <li><strong>Dodge</strong> every vehicle on Pete's road.</li>
+      <li><strong>Fill all five bays</strong> to clear the level. You have three lives and a timer on every attempt.</li>
+    </ul>
+    <p class="keys">Space or Enter confirm &middot; P pause &middot; M mute &middot; C CRT filter &middot; F fullscreen &middot; H help</p>
+  </section>
+
+  <section id="cast" class="panel">
+    <h2>Cast</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Colby (SuperColby)</h3>
+        <p>An orange tabby in a blue shirt with a red and yellow C shield and an orange cape. Hops home, one square at a time.</p>
+      </article>
+      <article class="card">
+        <h3>Perring Parkway Pete</h3>
+        <p>A feral, vested rat with red eyes who owns the road. He throws cheese rollers across the median from level 3 and taunts you the whole way.</p>
+      </article>
+      <article class="card">
+        <h3>The traffic</h3>
+        <p>Pickles delivery trucks, a tuna-can bus, runaway cheese wheels and Pete's own limo, which honks.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="story" class="panel">
+    <h2>The swarm story</h2>
+    <p>Pawgger was built by a swarm of parallel AI agents, each owning one module. A single binding contract, <code>ARCHITECTURE.md</code>, defined the data shapes, the simulation API, the art and audio rules and who owned which file. Agents built against that contract, checked their own work by running it and looking at screenshots, and reported progress to a live tracker.</p>
+    <p>The how and why, with the mistakes included, is in <a href="https://github.com/bsommers/pawgger2/blob/main/docs/HOW-IT-WAS-MADE.md">HOW-IT-WAS-MADE</a>.</p>
+  </section>
+
+  <section id="tech" class="panel">
+    <h2>Tech notes</h2>
+    <ul class="bullets">
+      <li><strong>Zero dependencies.</strong> Plain ES modules. The build bundles with esbuild only at build time.</li>
+      <li><strong>Art drawn by code.</strong> Every sprite is a <code>PixBuf</code> built from a locked 8-bit palette. No image files.</li>
+      <li><strong>Audio synthesised.</strong> WebAudio plays live; a pure-JS path renders the same sounds offline.</li>
+      <li><strong>Deterministic sim.</strong> Randomness comes only from a seeded RNG, so runs and tests are repeatable.</li>
+      <li><strong>Runs in Node too.</strong> The sim, levels, art and audio render without a DOM, so the test suite runs headless.</li>
+      <li><strong>One file.</strong> <code>dist/pawgger2.html</code> is the whole game, with JS and CSS inlined.</li>
+    </ul>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Pawgger is a fan parody. Frogger is a trademark of its owners; all Pawgger art and code here is original. Repo: <a href="https://github.com/bsommers/pawgger2">github.com/bsommers/pawgger2</a> (placeholder until published).</p>
+</footer>
+</body>
+</html>
