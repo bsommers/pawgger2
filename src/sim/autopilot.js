@@ -27,6 +27,7 @@ export function createAutopilot(game, { skill = 1, seed = 1 } = {}) {
   let lastBays = 0;
   let stuckFor = 0;
   let margin = 1.5;
+  let lastPete = 'off';
 
   // ------------------------------------------------------------ danger predicates
   const rollerHit = (t, tNow, x) => {
@@ -41,7 +42,7 @@ export function createAutopilot(game, { skill = 1, seed = 1 } = {}) {
     const left = Math.max(0, TUNING.rollerWarn - (p.t ?? 0));
     if (dt < left) return false;
     const dir = p.rollerDir ?? 1;
-    const rx = (dir > 0 ? -7 : W + 7) + dir * TUNING.rollerSpeed * (dt - left);
+    const rx = (dir > 0 ? -8 : W + 8) + dir * TUNING.rollerSpeed * (dt - left);
     return Math.abs(rx - x) < half;
   };
 
@@ -186,6 +187,8 @@ export function createAutopilot(game, { skill = 1, seed = 1 } = {}) {
     }
 
     const now = g.t + dt;
+    const ps = g.pete ? g.pete.state : 'off';
+    if (ps !== lastPete) { lastPete = ps; plan = null; }
     if (plan) {
       const idx = Math.round((now - plan.t0) / STEP);
       const e = expected(idx);
