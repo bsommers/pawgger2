@@ -1,6 +1,6 @@
 // Settings + hi-score persistence. Node-safe: every storage access is guarded; pass `storage` to inject a fake.
-export const SETTINGS_KEY = 'pawfall.settings';
-export const HI_KEY = 'pawfall.hi';
+export const SETTINGS_KEY = 'pawgger2.settings';
+export const HI_KEY = 'pawgger2.hi';
 export const HI_MAX = 8;
 export const DEFAULTS = Object.freeze({ master: 0.8, sfx: 1, music: 0.7, crt: true, invert: false, autofire: false, mute: false });
 export const DEFAULT_HI = Object.freeze([
