@@ -47,7 +47,7 @@ export function createScreens({ sp = null, now = () => (typeof performance !== '
       drawText(ctx, 'LEFT/RIGHT CHANGES', W / 2, 220, { color: PAL.hudDim, align: 'center' });
     },
     drawPause(ctx) {
-      shade(ctx, 96, 64);
+      shade(ctx, 96, 64, 0.96);
       title(ctx, 'PAUSED', 106);
       drawText(ctx, 'P OR ESC TO RESUME', W / 2, 130, { color: PAL.white, align: 'center' });
       drawText(ctx, 'Q: QUIT TO TITLE', W / 2, 142, { color: PAL.hudDim, align: 'center' });
