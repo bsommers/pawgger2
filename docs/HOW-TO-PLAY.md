@@ -17,7 +17,11 @@ Pawgger is a loving parody of Frogger. You are **Colby**, SuperColby, an orange 
 | Fullscreen | F | |
 | Help | H | |
 
-Touch screens get on-screen hop buttons. A gamepad works too.
+Touch screens get on-screen hop buttons (a d-pad that appears on the first touch). A gamepad works too.
+
+**Online:** https://bsommers.github.io/pawgger2/play/
+
+There are 12 tuned levels; the sky cycles day, golden hour, dusk, night every five levels and speeds are capped after that. Your hi-scores and settings are saved in `localStorage` (`pawgger2.hi`, `pawgger2.settings`).
 
 ## The screen
 

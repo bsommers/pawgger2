@@ -5,12 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pawgger - Colby vs Perring Parkway Pete</title>
 <meta name="description" content="Pawgger: a blocky 8-bit Frogger parody starring Colby the cat and the feral rat Perring Parkway Pete. Play in your browser.">
-<link rel="icon" href="data:,">
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png">
+<link rel="apple-touch-icon" href="brand/apple-touch-icon.png">
+<meta property="og:title" content="Pawgger - Colby vs Perring Parkway Pete">
+<meta property="og:image" content="https://bsommers.github.io/pawgger2/brand/hero.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="top">
-  <a class="brand" href="#top">PAWGGER</a>
+  <a class="brand" href="#top"><img src="brand/favicon-32.png" alt="" width="24" height="24" style="display:inline-block;vertical-align:middle;margin-right:8px">PAWGGER</a>
   <nav>
     <a href="#play">Play</a>
     <a href="#how">How to play</a>
@@ -22,6 +27,7 @@
 
 <main id="top">
   <section class="hero">
+    <img class="banner" src="brand/hero.png" width="1280" height="400" alt="Pawgger: Colby the cat crossing the road and river">
     <p class="kicker">A loving parody of Frogger (1981), in the KASEKRIEG universe</p>
     <h1>Colby must get home.</h1>
     <p class="lede">Hop SuperColby across Perring Parkway Pete's five-lane road, then across a jungle river of logs, turtles and crocodiles, into five home bays. Watch out for Pickles delivery trucks, a tuna-can bus, runaway cheese wheels and Pete's honking limo.</p>
@@ -49,7 +55,8 @@
     <h2>How to play</h2>
     <p>Full rules and scoring are in <a href="https://github.com/bsommers/pawgger2/blob/main/docs/HOW-TO-PLAY.md">HOW-TO-PLAY</a>. The short version:</p>
     <ul class="bullets">
-      <li><strong>Hop</strong> with the arrow keys or WASD. One hop per press.</li>
+      <li><strong>Hop</strong> with the arrow keys or WASD, or the on-screen buttons on touch devices. One hop per press.</li>
+      <li><strong>12 levels</strong> are tuned and bot-verified; the sky runs day, golden hour, dusk, night and repeats, and speeds climb to a cap.</li>
       <li><strong>Ride</strong> logs and turtles across the river. Open water, the hedge and falling off screen are fatal.</li>
       <li><strong>Dodge</strong> every vehicle on Pete's road.</li>
       <li><strong>Fill all five bays</strong> to clear the level. You have three lives and a timer on every attempt.</li>
@@ -89,13 +96,14 @@
       <li><strong>Audio synthesised.</strong> WebAudio plays live; a pure-JS path renders the same sounds offline.</li>
       <li><strong>Deterministic sim.</strong> Randomness comes only from a seeded RNG, so runs and tests are repeatable.</li>
       <li><strong>Runs in Node too.</strong> The sim, levels, art and audio render without a DOM, so the test suite runs headless.</li>
+      <li><strong>Tested.</strong> 277 tests, a level fairness validator (<code>tools/validate-level.mjs</code>) and an autopilot soak (<code>tools/botplay.mjs</code>) that clears 12 levels across several seeds. Hi-scores and settings live in <code>localStorage</code> under <code>pawgger2.hi</code> and <code>pawgger2.settings</code>.</li>
       <li><strong>One file.</strong> <code>dist/pawgger2.html</code> is the whole game, with JS and CSS inlined.</li>
     </ul>
   </section>
 </main>
 
 <footer class="foot">
-  <p>Pawgger is a fan parody. Frogger is a trademark of its owners; all Pawgger art and code here is original. Repo: <a href="https://github.com/bsommers/pawgger2">github.com/bsommers/pawgger2</a> (placeholder until published).</p>
+  <p>Pawgger is a fan parody. Frogger is a trademark of its owners; all Pawgger art and code here is original. Repo: <a href="https://github.com/bsommers/pawgger2">github.com/bsommers/pawgger2</a>.</p>
 </footer>
 </body>
 </html>

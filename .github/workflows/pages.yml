@@ -30,6 +30,8 @@ jobs:
           mkdir -p _site/play
           cp -r docs/site/. _site/
           cp docs/HOW-TO-PLAY.md docs/HOW-IT-WAS-MADE.md _site/
+          mkdir -p _site/brand
+          cp assets/brand/*.png assets/brand/*.svg assets/brand/favicon.ico _site/brand/
           cp dist/pawgger2.html _site/play/index.html
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3

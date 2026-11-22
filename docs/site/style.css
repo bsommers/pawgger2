@@ -82,3 +82,5 @@ p { max-width: 70ch; }
   .top { padding: 10px 16px; }
   .hero-shot img { width: 100%; height: auto; }
 }
+
+.banner { width: 100%; max-width: 960px; height: auto; margin: 0 auto 24px; border: 2px solid var(--line); }

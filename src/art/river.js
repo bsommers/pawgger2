@@ -161,8 +161,8 @@ function tuna(f) {
 }
 function sardine(f) {
   const p = new PixBuf(10, 10);
-  p.ellipse(4, 5, 4, 2, PAL.silver); p.poly([[8, 5], [10, 2], [10, 8]], PAL.silverD);
-  p.hline(1, 4, 6, PAL.white); p.hline(1, 6, 6, PAL.silverD); p.set(2, 4, PAL.black); p.set(3, 5, PAL.black);
+  p.ellipse(4, 6, 4, 2, PAL.silver); p.poly([[8, 6], [10, 3], [10, 9]], PAL.silverD);
+  p.hline(1, 5, 6, PAL.white); p.hline(1, 7, 6, PAL.silverD); p.set(2, 5, PAL.black); p.set(3, 6, PAL.black);
   const q = edge(p); sparkle(q, f, [[3, 2], [8, 3], [5, 9]]); return q;
 }
 function gold(f) {

@@ -7,31 +7,17 @@ import {
   bayHazardOn, colX,
 } from '../src/core/defs.js';
 import { generateLevel } from '../src/levels/lanegen.js';
+import { supportAt as simSupportAt, crocBiteAt } from '../src/sim/lanes.js';
+import { hitVehicle as simHitVehicle } from '../src/sim/collide.js';
 
-// ---- local copies of the sim rect rules (replace with sim-core's supportAt/hitVehicle if exported) ----
-export function hitVehicle(lane, x, t) {
-  const lo = x - TUNING.frogHalf, hi = x + TUNING.frogHalf;
-  for (const it of lane.items) {
-    const l = itemLeft(lane, it, t) + TUNING.vehicleInset, r = itemLeft(lane, it, t) + itemW(it.type) - TUNING.vehicleInset;
-    if (hi > l && lo < r) return true;
-  }
-  return false;
-}
+// ---- thin adapters over the sim-core predicates (single source of truth; see test/validator-parity.test.mjs) ----
+export function hitVehicle(lane, x, t) { return !!simHitVehicle(lane, lane.row, x, t); }
 // returns null (no support) | { item, lethal:'croc'|null }
 export function supportAt(lane, x, t) {
-  for (const it of lane.items) {
-    const w = itemW(it.type), l = itemLeft(lane, it, t);
-    if (x < l + TUNING.supportInset || x > l + w - TUNING.supportInset) continue;
-    if (it.type === 'croc') {
-      const headFirst = lane.dir > 0;                       // head = last cell in travel direction
-      const inHead = headFirst ? x >= l + w - CELL : x <= l + CELL;
-      if (inHead && crocMouth(it, t) === 'open') return { item: it, lethal: 'croc' };
-      return { item: it, lethal: null };
-    }
-    if (KINDS[it.type].dives && turtleState(it, t) === 'down') continue;
-    return { item: it, lethal: null };
-  }
-  return null;
+  const item = simSupportAt(lane, lane.row, x, t);
+  if (item) return { item, lethal: null };
+  const bite = crocBiteAt(lane, lane.row, x, t);
+  return bite ? { item: bite, lethal: 'croc' } : null;
 }
 
 const DT = 1 / 25;                                // search step; hop = HOP_STEPS steps (0.12 s exactly)

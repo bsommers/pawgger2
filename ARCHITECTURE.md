@@ -112,3 +112,7 @@ No edits to `../game-factory` (another session has uncommitted work there). Cand
 
 ## 13. Conventions that bit us before
 `*/` inside a block comment ends it; use `//` notes. Numbers via `??` not `||`. Subscribe to events at construction. Pin conventions (axes, centre anchor, frame semantics) in tests. Never write shared `out/` files from tests (use temp dirs). Look at art at x6 and measure bounding boxes. Seamless lanes need the period (loop) to be a multiple of the tile width. Stagger cycling hazards. Set `pose`/`frame` where `mode` changes. Poll input once per frame and carry edges. No `Math.random` in the sim.
+
+## Status addendum
+
+12 levels are validated (`node tools/validate-level.mjs --levels 12 --seeds 8`) and bot-cleared (`node tools/botplay.mjs --levels 12 --seeds 4`). Touch controls live in `src/ui/touch.js`. Persistence uses `localStorage` keys `pawgger2.hi` and `pawgger2.settings` (`src/core/settings.js`). `npm test` runs 277 tests (2 skip by design). Pages: https://bsommers.github.io/pawgger2/ (game at `/play/`), brand assets in `assets/brand/`.

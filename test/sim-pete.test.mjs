@@ -141,7 +141,7 @@ test('roller does not start while the frog is mid-hop into row 7; it waits', () 
 
 test('interval shrinks with level (lane-gen rollerEvery) and never below 4 s', () => {
   const at = (level) => generateLevel(level, 1).pete;
-  assert.ok(!at(1) || at(1).roller === false, 'no roller on level 1');
+  assert.equal(at(1), null, 'no Pete (and so no roller) on level 1');
   assert.ok(!at(2) || at(2).roller === false, 'no roller on level 2');
   const e3 = at(3).rollerEvery, e4 = at(4).rollerEvery, e10 = at(10).rollerEvery, e40 = at(40).rollerEvery;
   assert.ok(e3 > e4 && e4 > e10, `${e3} ${e4} ${e10}`);

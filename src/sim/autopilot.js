@@ -79,48 +79,72 @@ export function createAutopilot(game, { skill = 1, seed = 1 } = {}) {
   };
 
   // ------------------------------------------------------------ search
+  // A* over (row, x, step) with an admissible heuristic (rows still to climb * HOP_STEPS). It returns the same earliest
+  // arrival as a plain time-layered BFS but expands only nodes that can still beat the best route, so a replan costs a
+  // small fraction of the old full-width sweep (that sweep stalled single frames for up to ~0.5 s on busy levels).
+  // MAX_EXPAND bounds the worst case; hitting it counts as "no plan at this margin" and the caller degrades gracefully.
+  const MAX_EXPAND = 6000;
   function search(t0, maxSteps) {
     const f = g.frog;
     const key = (row, x) => row * 1024 + Math.round(x);
-    const layers = new Array(maxSteps + HOP_STEPS + 2);
-    const start = { k: 0, row: f.row, x: f.x, parent: null, dir: null };
-    layers[0] = new Map([[key(f.row, f.x), start]]);
-    for (let k = 0; k < maxSteps; k++) {
-      const layer = layers[k];
-      if (!layer) continue;
-      const tk = t0 + k * STEP;
-      for (const n of layer.values()) {
-        // wait one step
-        {
-          const lane = g.lanes[n.row];
-          const riding = n.row >= ROW.river[0] && n.row <= ROW.river[4];
-          const nx = riding && lane ? n.x + lane.dir * lane.speed * STEP : n.x;
-          if (nx >= -TUNING.edgeDeath + 2 && nx <= W + TUNING.edgeDeath - 2 && safeAt(n.row, nx, tk + STEP, t0, false, n.row)) {
-            const kk = key(n.row, nx);
-            const L = layers[k + 1] || (layers[k + 1] = new Map());
-            if (!L.has(kk)) L.set(kk, { k: k + 1, row: n.row, x: nx, parent: n, dir: null });
-          }
-        }
-        // hops
-        for (const d of DIRS) {
-          let row = n.row, x = n.x;
-          if (d === 'up') row = Math.max(FROG_MIN_ROW, row - 1);
-          else if (d === 'down') row = Math.min(FROG_MAX_ROW, row + 1);
-          else if (d === 'left') x = Math.max(CELL / 2, x - CELL);
-          else x = Math.min(W - CELL / 2, x + CELL);
-          if (row === n.row && x === n.x) continue;
-          if (row === ROW.bays) {
-            if (n.row === ROW.river[0] && bayOk(x, tk + HOP_STEPS * STEP)) return { k: k + HOP_STEPS, row, x, parent: n, dir: d };
-            continue;
-          }
-          const ta = tk + HOP_STEPS * STEP;
-          if (!safeAt(row, x, ta, t0, true, n.row)) continue;
-          const kk = key(row, x);
-          const L = layers[k + HOP_STEPS] || (layers[k + HOP_STEPS] = new Map());
-          if (!L.has(kk)) L.set(kk, { k: k + HOP_STEPS, row, x, parent: n, dir: d });
+    const heap = [];                         // binary min-heap on (f, -k)
+    const less = (a, b) => a.f < b.f || (a.f === b.f && (a.k > b.k || (a.k === b.k && a.id < b.id)));
+    let ids = 0;
+    const push = (n) => {
+      n.f = n.k + (n.row - ROW.bays) * HOP_STEPS; n.id = ids++;
+      let i = heap.push(n) - 1;
+      while (i > 0) { const p = (i - 1) >> 1; if (!less(heap[i], heap[p])) break; [heap[i], heap[p]] = [heap[p], heap[i]]; i = p; }
+    };
+    const pop = () => {
+      const top = heap[0], last = heap.pop();
+      if (heap.length) {
+        heap[0] = last; let i = 0;
+        for (;;) {
+          const l = 2 * i + 1, r = l + 1; let m = i;
+          if (l < heap.length && less(heap[l], heap[m])) m = l;
+          if (r < heap.length && less(heap[r], heap[m])) m = r;
+          if (m === i) break;
+          [heap[i], heap[m]] = [heap[m], heap[i]]; i = m;
         }
       }
-      layers[k] = null;   // free
+      return top;
+    };
+    const seen = new Set();
+    const open = (n) => { const id = key(n.row, n.x) * 1024 + n.k; if (seen.has(id)) return; seen.add(id); push(n); };
+    open({ k: 0, row: f.row, x: f.x, parent: null, dir: null });
+    let expanded = 0;
+    while (heap.length) {
+      const n = pop();
+      if (n.row === ROW.bays) return n;
+      if (++expanded > MAX_EXPAND) return null;
+      const k = n.k;
+      if (k >= maxSteps) continue;
+      const tk = t0 + k * STEP;
+      // wait one step
+      {
+        const lane = g.lanes[n.row];
+        const riding = n.row >= ROW.river[0] && n.row <= ROW.river[4];
+        const nx = riding && lane ? n.x + lane.dir * lane.speed * STEP : n.x;
+        if (nx >= -TUNING.edgeDeath + 2 && nx <= W + TUNING.edgeDeath - 2 && safeAt(n.row, nx, tk + STEP, t0, false, n.row)) {
+          open({ k: k + 1, row: n.row, x: nx, parent: n, dir: null });
+        }
+      }
+      // hops
+      for (const d of DIRS) {
+        let row = n.row, x = n.x;
+        if (d === 'up') row = Math.max(FROG_MIN_ROW, row - 1);
+        else if (d === 'down') row = Math.min(FROG_MAX_ROW, row + 1);
+        else if (d === 'left') x = Math.max(CELL / 2, x - CELL);
+        else x = Math.min(W - CELL / 2, x + CELL);
+        if (row === n.row && x === n.x) continue;
+        if (row === ROW.bays) {
+          if (n.row === ROW.river[0] && bayOk(x, tk + HOP_STEPS * STEP)) open({ k: k + HOP_STEPS, row, x, parent: n, dir: d });
+          continue;
+        }
+        const ta = tk + HOP_STEPS * STEP;
+        if (!safeAt(row, x, ta, t0, true, n.row)) continue;
+        open({ k: k + HOP_STEPS, row, x, parent: n, dir: d });
+      }
     }
     return null;
   }
